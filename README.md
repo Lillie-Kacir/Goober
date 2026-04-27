@@ -11,21 +11,78 @@ This repository now includes an end-to-end handwriting processing pipeline that:
 
 Create and activate/install with your virtualenv (or use `.venv/bin/...` commands directly):
 
-to do this     
-Open the Command Palette (Ctrl+Shift+P / Cmd+Shift+P) and type "Python: Select Interpreter".
-Choose the one labeled "(.venv): venv" or browse to the executable path manually:
-        Windows: .venv\Scripts\python.exe
-        macOS/Linux: .venv/bin/python
+```bash
+sudo apt-get update
+sudo apt-get install -y python3.12-venv tesseract-ocr
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/pip install -r requirements.txt
+```
 
-Activate in Terminal:
+Run the pipeline:
 
-    Open a new terminal in VS Code (Ctrl+Shift+``). It should now automatically show (.venv)` at the start of your prompt.
+```bash
+.venv/bin/python handwriting_pipeline.py \
+  --image path/to/handwritten_image.png \
+  --output-stem outputs/predicted_words
+```
 
+Outputs:
+- `outputs/predicted_words.txt`
+- `outputs/predicted_words.docx`
 
-Use the command to execute:
-python handwriting_pipeline.py --image ".\demo_assets\demo_handwritten.png" --output-stem "outputs\predicted_words"
+## Train and use the CharacterCNN model
+
+Train the CNN and save a checkpoint:
+
+```bash
+EPOCHS=1 MAX_TRAIN_SAMPLES=512 MAX_VAL_SAMPLES=256 \
+  .venv/bin/python Letter_Detection.py
+```
+
+Default checkpoint path:
+- `models/character_cnn.pt`
+
+Run pipeline with CNN-assisted refinement:
+
+```bash
+.venv/bin/python handwriting_pipeline.py \
+  --image path/to/handwritten_image.png \
+  --output-stem outputs/predicted_words \
+  --cnn-checkpoint models/character_cnn.pt
+```
+
+Disable CNN and use OCR-only mode:
+
+```bash
+.venv/bin/python handwriting_pipeline.py \
+  --image path/to/handwritten_image.png \
+  --output-stem outputs/predicted_words \
+  --disable-cnn
+```
+
+## Demo
+
+You can generate a sample handwritten-style image and run the full pipeline:
+
+```bash
+.venv/bin/python demo_pipeline.py
+.venv/bin/python handwriting_pipeline.py \
+  --image sample_handwriting.png \
+  --output-stem demo_output/predicted_words
+```
 
 This creates:
 - `sample_handwriting.png`
 - `demo_output/predicted_words.txt`
 - `demo_output/predicted_words.docx`
+
+## Accuracy check
+
+Run a quick evaluation against the built-in demo reference text:
+
+```bash
+.venv/bin/python evaluate_pipeline.py
+```
+
+This prints the expected text, predicted text, and word-level accuracy.
