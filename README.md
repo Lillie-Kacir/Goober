@@ -7,6 +7,15 @@ This repository now includes an end-to-end handwriting processing pipeline that:
 3. Applies word prediction/correction for noisy OCR output.
 4. Exports the predicted text to both `.txt` and `.docx`.
 
+To run the program as a locally hosted website run `python .\app.py`
+
+Web hosted link: https://artificial-intelligence-final-project.onrender.com
+Note: currently hosted by Render Web Hosting however the system specifiactions do not meet the requirements to complete the handwriting identification pipeline and hence errors out after a certain amount of time.
+
+
+
+# Developer Notes for Modifying Model
+
 ## Quick start
 
 Create and activate/install with your virtualenv (or use `.venv/bin/...` commands directly):
