@@ -1,20 +1,22 @@
 # Artificial-Intelligence-Final-Project-Handwriting-Recognition
 
-This repository now includes an end-to-end handwriting processing pipeline that:
+## User Access
+This website is accesible via a Render hosting. It may take 30-60 seconds to boot, as the site is hosted on a free plan. Please visit this site for user access:
+
+https://artificial-intelligence-final-project-2hps.onrender.com/
+
+For developer information, continue on with this README.
+
+This repository includes an end-to-end handwriting processing pipeline that:
 
 1. Takes an input image of handwritten text.
 2. Runs OCR to extract letter/word sequences.
 3. Applies word prediction/correction for noisy OCR output.
 4. Exports the predicted text to both `.txt` and `.docx`.
 
-To run the program as a locally hosted website run `python .\app.py`
-
-Web hosted link: https://artificial-intelligence-final-project.onrender.com
-Note: currently hosted by Render Web Hosting however the system specifiactions do not meet the requirements to complete the handwriting identification pipeline and hence errors out after a certain amount of time.
+Additionally, a Flask-based web application provides a user-friendly interface for uploading images and receiving transcribed text without using the command line. The web app features a space-themed UI with drag-and-drop upload, real-time processing, and automatic file download.
 
 
-
-# Developer Notes for Modifying Model
 
 ## Quick start
 
@@ -36,9 +38,13 @@ Run the pipeline:
   --output-stem outputs/predicted_words
 ```
 
+Run the web app:
+.venv/bin/python app.py
+
+Then open http://localhost:5000 in your browser.
+
 Outputs:
 - `outputs/predicted_words.txt`
-- `outputs/predicted_words.docx`
 
 ## Train and use the CharacterCNN model
 
